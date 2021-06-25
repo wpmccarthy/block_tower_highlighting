@@ -1,5 +1,5 @@
 // Experiment frame, with Matter canvas and surrounding buttons
-var config = require('./display_config.js');
+// var config = require('./display_config.js');
 var Matter = require('./matter.js');
 var p5 = require('./p5.js');
 var Boundary = require('./boundary.js');
@@ -52,7 +52,7 @@ class BlockUniverse {
     // Scaling values
     display.grid.setup(); // initialize grid
 
-    this.blockSender = undefined;
+    // this.blockSender = undefined;
 
     this.blockMenu = this.setupBlockMenu();
 
@@ -60,16 +60,23 @@ class BlockUniverse {
 
   }
 
-  setupEnvs(trialObj) {
+  setupEnvs(trialObj, showStim, showBuild) {
     var localThis = this;
-    this.p5stim = new p5((env) => {
-      localThis.setupStimulus(env, trialObj);
-    }, 'stimulus-canvas');
+    if (showStim) {
+      console.log('shows');
+      this.p5stim = new p5((env) => {
+        localThis.setupStimulus(env, trialObj);
+      }, 'stimulus-canvas');
+    }
 
-    this.p5env = new p5((env) => {
-      localThis.setupEnvironment(env, trialObj);
-    }, 'environment-canvas');
+    if (showBuild) {
+      console.log('showb');
+      this.p5env = new p5((env) => {
+        localThis.setupEnvironment(env, trialObj);
+      }, 'environment-canvas');
+    };
   };
+
 
   setupStimulus(p5stim, trialObj) {
     var localThis = this;
@@ -85,11 +92,21 @@ class BlockUniverse {
     p5stim.draw = function () {
       p5stim.background(220);
       display.showStimulus(p5stim, testStim, false, config.stimColor);
-      display.showStimFloor(p5stim);
-      display.grid.show(p5stim);
-      display.showReconstruction(p5stim, localThis.sendingBlocks, false);
+      if (config.showStimFloor){
+        display.showStimFloor(p5stim);
+      };
+      if (config.showStimGrid){
+        display.grid.show(p5stim);
+      };
       
-      localThis.blockMenu.show(p5stim, false);
+      if (config.displayBuiltInStim){
+        display.showReconstruction(p5stim, localThis.sendingBlocks, false);
+      }
+      
+      if (config.showStimMenu){
+        localThis.blockMenu.show(p5stim, false);
+      };
+      
     };
 
   };
@@ -308,7 +325,7 @@ class BlockUniverse {
       }
 
       this.sendingBlocks.push(sendingBlockData.block);
-      this.blockSender(sendingBlockData);
+      // this.blockSender(sendingBlockData);
 
       // update discrete world map
 

@@ -1,4 +1,4 @@
-var config = require('./display_config.js');
+// var config = require('./display_config.js');
 
 function showStimulus(env, stimulus, individual_blocks = false, blockColor = [28, 54, 220, 50]) {
   Array.prototype.forEach.call(stimulus, block => {

@@ -1,4 +1,4 @@
-var config = require('./display_config.js');
+// var config = require('./display_config.js');
 var Matter = require('./matter.js');
 
 // Wrapper for Bodies.rectangle class to create boundaries/ walls. 

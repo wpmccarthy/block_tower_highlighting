@@ -1,4 +1,4 @@
-var config = require('./display_config.js');
+// var config = require('./display_config.js');
 var Matter = require('./matter.js');
 
 // Wrappers for Matter Bodies that instantiate a particular BlockKind

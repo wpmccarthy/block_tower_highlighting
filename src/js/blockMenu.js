@@ -1,4 +1,4 @@
-var config = require('./display_config.js');
+// var config = require('./display_config.js');
 
 class BlockMenu {
 
