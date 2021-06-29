@@ -36,12 +36,8 @@ class BlockUniverse {
     this.timeLastPlaced = Date.now();
     this.timeBlockSelected = Date.now();
 
-    this.blockDims = [
-      [1, 2],
-      [2, 1]
-    ];
-
-    this.blockNames = ['v', 'h'];
+    this.blockDims = config.blockDims;
+    this.blockNames = config.blockNames;
 
     // // Metavariables
     // this.dbname = 'block_construction';
@@ -63,14 +59,12 @@ class BlockUniverse {
   setupEnvs(trialObj, showStim, showBuild) {
     var localThis = this;
     if (showStim) {
-      console.log('shows');
       this.p5stim = new p5((env) => {
         localThis.setupStimulus(env, trialObj);
       }, 'stimulus-canvas');
     }
 
     if (showBuild) {
-      console.log('showb');
       this.p5env = new p5((env) => {
         localThis.setupEnvironment(env, trialObj);
       }, 'environment-canvas');
@@ -81,7 +75,8 @@ class BlockUniverse {
   setupStimulus(p5stim, trialObj) {
     var localThis = this;
 
-    var testStim = trialObj.targetBlocks;
+    // var testStim = trialObj.targetBlocks;
+    trialObj.targetBlocks = display.translateTower(trialObj.targetBlocks); //translate from config
     p5stim.setup = function () {
       p5stim
         .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
@@ -91,7 +86,7 @@ class BlockUniverse {
 
     p5stim.draw = function () {
       p5stim.background(220);
-      display.showStimulus(p5stim, testStim, false, config.stimColor);
+      display.showStimulus(p5stim, trialObj.targetBlocks, false, config.stimColor);
       if (config.showStimFloor){
         display.showStimFloor(p5stim);
       };
@@ -376,6 +371,7 @@ class BlockUniverse {
     // remove environment
     this.p5stim.remove();
   }
+
 }
 
 module.exports = BlockUniverse;

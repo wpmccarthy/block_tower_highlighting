@@ -133,10 +133,28 @@ function showMarker(p5stim) {
   p5stim.pop();
 }
 
+
+function translateTower(targetBlocks, xOffset, yOffset){
+  if (xOffset == null) {
+    xOffset = config.xSquareOffset;
+  }
+  if (yOffset == null) {
+    yOffset = config.ySquareOffset;
+  }
+  translated = targetBlocks.map((block) => ({
+    x: block.x + xOffset,
+    y: block.y + yOffset,
+    height: block.height,
+    width:block.width
+  }));
+  return translated
+};
+
 module.exports = {
   showStimulus,
   showReconstruction,
   showMarker,
   showStimFloor,
+  translateTower,
   grid: new Grid()
 };
