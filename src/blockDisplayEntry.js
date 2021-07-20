@@ -4,7 +4,7 @@ var BlockUniverse = require('./js/blockUniverse.js');
 
 let blockUniverse = new BlockUniverse(config);
 
-window.blockSetup = function(trial) {
+window.blockSetup = function(trial, showStimulus, showBuilding) {
   // Need to remove old screens
   // if(_.has(blockUniverse, 'p5env')){
   //   blockUniverse.removeEnv();
@@ -14,7 +14,7 @@ window.blockSetup = function(trial) {
   //   blockUniverse.removeStimWindow();
   // };
 
-  blockUniverse.setupEnvs(trial, config.showStimulus, config.showBuilding);
+  blockUniverse.setupEnvs(trial, showStimulus, showBuilding);
 
 }
 
