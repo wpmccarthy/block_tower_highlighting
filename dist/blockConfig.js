@@ -1,6 +1,6 @@
 var config = {
   showStimulus: true,
-  showBuilding: true,
+  showBuilding: false,
   canvasHeight: 450,
   canvasWidth: 450,
   worldHeight: 10,
