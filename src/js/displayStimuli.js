@@ -1,8 +1,8 @@
 // var config = require('./display_config.js');
 
-function showStimulus(env, stimulus, individual_blocks = false, blockColor = [28, 54, 220, 50]) {
+function showStimulus(env, stimulus, individual_blocks = false) {
   Array.prototype.forEach.call(stimulus, block => {
-    showBlock(env, block, individual_blocks, blockColor);
+    showBlock(env, block, individual_blocks);
   });
 }
 
@@ -12,7 +12,7 @@ function showReconstruction(env, stimulus, individual_blocks = false) {
   });
 }
 
-function showBlock(env, block, individual_blocks = false, blockColor = config.structureGhostColor) {
+function showBlock(env, block, individual_blocks = false) {
   const width = block.width;
   const height = block.height;
   const x_left = block.x - config.worldWidth / 2;
@@ -33,11 +33,12 @@ function showBlock(env, block, individual_blocks = false, blockColor = config.st
     ((config.canvasHeight - config.floorHeight) - (config.stim_scale * y_center)));
 
   //env.noStroke();
-  env.stroke(blockColor);
-  env.fill(blockColor);
+  env.stroke(config.strokeColor);
+  env.fill(config.stimColor);
   if (individual_blocks) {
+    env.fill(block.color);
     env.strokeWeight(2.5);
-    env.stroke([240, 225, 0]);
+    // env.stroke([240, 225, 0]);
   }
   env.rect(0, 0, config.stim_scale * width, config.stim_scale * height);
   env.pop();
@@ -145,7 +146,7 @@ function translateTower(targetBlocks, xOffset, yOffset){
     x: block.x + xOffset,
     y: block.y + yOffset,
     height: block.height,
-    width:block.width
+    width: block.width
   }));
   return translated
 };

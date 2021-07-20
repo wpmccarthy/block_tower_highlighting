@@ -32,7 +32,7 @@ class BlockKind {
     else {
       env.fill(this.blockColor);
     }
-    env.stroke([189, 185, 185]);
+    env.stroke(config.strokeColor);
     env.strokeWeight(2);
     env.translate(x, y);
     env.rect(0, 0, this.w * config.sF, this.h * config.sF);

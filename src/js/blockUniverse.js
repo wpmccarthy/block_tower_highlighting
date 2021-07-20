@@ -62,7 +62,7 @@ class BlockUniverse {
       this.p5stim = new p5((env) => {
         localThis.setupStimulus(env, trialObj);
       }, 'stimulus-canvas');
-    }
+    };
 
     if (showBuild) {
       this.p5env = new p5((env) => {
@@ -82,11 +82,16 @@ class BlockUniverse {
         .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
         .parent('stimulus-canvas'); // add parent div 
 
-    };
+    }; 
+
+    let targetBlocksColored = trialObj.targetBlocks.map(block => {
+      block.color = this.getBlockColor([block.width, block.height]);
+      return block;
+    })
 
     p5stim.draw = function () {
       p5stim.background(220);
-      display.showStimulus(p5stim, trialObj.targetBlocks, false, config.stimColor);
+      display.showStimulus(p5stim, targetBlocksColored, config.stimIndividualBlocks);
       if (config.showStimFloor){
         display.showStimFloor(p5stim);
       };
@@ -371,6 +376,26 @@ class BlockUniverse {
     // remove environment
     this.p5stim.remove();
   }
+
+
+  getBlockColor(dims) {
+
+    console.log('dims',dims);
+    console.log('bd', config.blockDims);
+    console.log('bc',config.buildColors);
+
+    var i = 0;
+    while (((dims[0] != config.blockDims[i][0]) || (dims[1] != config.blockDims[i][1])) & (i < config.blockDims.length)){
+      i += 1;
+    }
+    if ((dims[0] == config.blockDims[i][0]) & (dims[1] == config.blockDims[i][1])){
+      return config.buildColors[i];
+    }
+
+    else (console.log('no color found for block of dimensions ', dims))
+
+  }
+
 
 }
 

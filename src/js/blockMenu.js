@@ -38,7 +38,7 @@ class BlockMenu {
     // Menu background
     env.fill(config.menuColor);
     env.rectMode(env.CORNER);
-    env.stroke([28,54,62,100]);
+    env.stroke(config.strokeColor);
     env.rect(
       0,
       config.canvasHeight - this.h,

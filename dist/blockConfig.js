@@ -1,6 +1,6 @@
 var config = {
   showStimulus: true,
-  showBuilding: false,
+  showBuilding: true,
   canvasHeight: 450,
   canvasWidth: 450,
   worldHeight: 10,
@@ -16,6 +16,7 @@ var config = {
   structureGhostColor: [30, 30, 200, 100],
   floorColor: [28, 54, 62],
   stimColor: [28, 54, 62],
+  strokeColor: [28, 54, 62],
   revealedTargetColor: [28, 54, 62, 200],
   discreteEnvHeight: 10,   // discrete world representation for y-snapping
   discreteEnvWidth: 12,
@@ -30,7 +31,7 @@ config.sF = config.canvasWidth / config.discreteEnvWidth; //scaling factor to ch
 config.stim_scale = config.sF; //scale of stimulus silhouette (same as sF here)
 
 // Building Environment parameters
-config.chocolateBlocks = true;
+config.chocolateBlocks = false;
 config.menuHeight = config.canvasHeight / 4.2;
 config.menuWidth = config.canvasWidth;
 config.floorHeight = config.canvasHeight / 3.5;
@@ -39,6 +40,7 @@ config.top = Math.round((config.canvasHeight - config.floorHeight) / config.stim
 //config.aboveGroundProp = config.floorY / config.canvasHeight;
 
 // Stimulus parameters
+config.stimIndividualBlocks = true;
 config.showStimFloor = false;
 config.showStimGrid = false;
 config.showStimMenu = false;

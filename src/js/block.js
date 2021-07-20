@@ -70,7 +70,7 @@ class Block {
     env.rectMode(env.CENTER);
     env.translate(x_top_corner, y_top_corner);
     env.rotate(angle);
-    env.stroke([28,54,62]);
+    env.stroke(config.strokeColor);
     env.strokeWeight(2);
     env.fill(this.color);
     // if(this.body.isSleeping) {
