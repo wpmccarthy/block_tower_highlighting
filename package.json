@@ -1,0 +1,30 @@
+{
+  "name": "building_widget",
+  "version": "1.0.0",
+  "description": "Block assembly environment for cognitive science experiments",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cogtoolslab/building_widget.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cogtoolslab/building_widget/issues"
+  },
+  "homepage": "https://github.com/cogtoolslab/building_widget#readme",
+  "devDependencies": {
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.5"
+  }
+}
