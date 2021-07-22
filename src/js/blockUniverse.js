@@ -380,10 +380,6 @@ class BlockUniverse {
 
   getBlockColor(dims) {
 
-    console.log('dims',dims);
-    console.log('bd', config.blockDims);
-    console.log('bc',config.buildColors);
-
     var i = 0;
     while (((dims[0] != config.blockDims[i][0]) || (dims[1] != config.blockDims[i][1])) & (i < config.blockDims.length)){
       i += 1;
