@@ -70,19 +70,22 @@ class Block {
     env.rectMode(env.CENTER);
     env.translate(x_top_corner, y_top_corner);
     env.rotate(angle);
-    env.stroke(config.strokeColor);
-    env.strokeWeight(2);
     env.fill(this.color);
     // if(this.body.isSleeping) {
     //     env.fill();
     // }
 
-    if (!config.chocolateBlocks) {
-      env.rect(0, 0, this.w, this.h);
-    }
-    else {
+    env.rect(0, 0, this.w, this.h);
+
+    if (config.chocolateBlocks) {
       this.blockKind.drawChocolateBlocks(env);
     }
+
+    env.noFill();
+    env.stroke(config.strokeColor);
+    env.strokeWeight(3);
+    env.rect(0, 0, this.w, this.h);
+
     env.pop();
 
   }

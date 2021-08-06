@@ -12,6 +12,26 @@ function showReconstruction(env, stimulus, individual_blocks = false) {
   });
 }
 
+function drawStimChocolateBlocks(env, nRow, nCol) {
+
+  env.strokeWeight(3);
+  env.stroke(config.internalStrokeColor);
+
+  // draws unit squares on each block
+  var i = -nRow / 2 + 0.5;
+  while (i < nRow / 2) {
+    var j = -nCol / 2 + 0.5;
+    while (j < nCol / 2) { // draw one square
+      env.translate(config.sF * i, config.sF * j);
+      env.rect(0, 0, config.sF, config.sF);
+      env.translate(-config.sF * i, -config.sF * j);
+      j++;
+    }
+    i++;
+  }
+}
+
+
 function showBlock(env, block, individual_blocks = false) {
   const width = block.width;
   const height = block.height;
@@ -32,14 +52,24 @@ function showBlock(env, block, individual_blocks = false) {
   env.translate(config.stimX + config.stim_scale * x_center,
     ((config.canvasHeight - config.floorHeight) - (config.stim_scale * y_center)));
 
-  //env.noStroke();
-  env.stroke(config.strokeColor);
-  env.fill(config.stimColor);
+  //draw fill
+  env.fill(block.color);
+  env.noStroke();
+
+  // env.stroke(config.strokeColor);
+  env.rect(0, 0, config.stim_scale * width, config.stim_scale * height);
+
+  // draw internal squares
   if (individual_blocks) {
     env.fill(block.color);
-    env.strokeWeight(2.5);
+    drawStimChocolateBlocks(env, width, height);
     // env.stroke([240, 225, 0]);
   }
+
+  // draw rectangle
+  env.noFill();
+  env.stroke(config.strokeColor);
+  env.strokeWeight(3);
   env.rect(0, 0, config.stim_scale * width, config.stim_scale * height);
   env.pop();
 

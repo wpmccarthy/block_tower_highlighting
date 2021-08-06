@@ -32,17 +32,33 @@ class BlockKind {
     else {
       env.fill(this.blockColor);
     }
-    env.stroke(config.strokeColor);
-    env.strokeWeight(2);
+
+    //move to correct location
     env.translate(x, y);
+
+    // draw fill
+    env.noStroke();
     env.rect(0, 0, this.w * config.sF, this.h * config.sF);
+    
+    // draw internal squares
     if (config.chocolateBlocks) {
       this.drawChocolateBlocks(env);
     }
+
+    // draw outer rectangle
+    env.noFill();
+    env.stroke(config.strokeColor);
+    env.strokeWeight(2);
+    env.rect(0, 0, this.w * config.sF, this.h * config.sF);
+
     env.pop();
   }
 
   drawChocolateBlocks(env) {
+
+    env.strokeWeight(3);
+    env.stroke(config.internalStrokeColor);
+
     // draws unit squares on each block
     var nRow = this.w;
     var nCol = this.h;
@@ -75,9 +91,9 @@ class BlockKind {
       env.push();
       env.translate(mouseX, mouseY);
       env.rectMode(env.CENTER);
-      env.stroke([200, 200, 255]);
+      env.stroke(config.ghostStroke);
       //env.stroke([28,54,62,100]);
-      env.strokeWeight(2);
+      env.strokeWeight(3);
       //fillColor = disabledBlockPlacement ? [100, 100, 100, 100] : [...this.blockColor];
       //fillColor[3] = 130;
       var fillColor = env.color([28, 54, 220]);
@@ -89,7 +105,7 @@ class BlockKind {
         env.rect(0, 0, this.w * config.sF, this.h * config.sF);
       }
       if (config.chocolateBlocks) {
-        this.drawChocolateBlocks(env);
+        //this.drawChocolateBlocks(env);
       }
       env.pop();
     }

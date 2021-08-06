@@ -4,8 +4,8 @@
   "description": "Block assembly environment for cognitive science experiments",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "webpack --mode production && python3 -m http.server 1234"
   },
   "repository": {
     "type": "git",

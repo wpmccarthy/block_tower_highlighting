@@ -18,6 +18,7 @@ var config = {
   stimColor: [28, 54, 62],
   strokeColor: [28, 54, 62],
   revealedTargetColor: [28, 54, 62, 200],
+  ghostStroke: [100,100,200,90],
   discreteEnvHeight: 10,   // discrete world representation for y-snapping
   discreteEnvWidth: 12,
   worldScale: 2.2, //scaling factor within matterjs
@@ -31,7 +32,7 @@ config.sF = config.canvasWidth / config.discreteEnvWidth; //scaling factor to ch
 config.stim_scale = config.sF; //scale of stimulus silhouette (same as sF here)
 
 // Building Environment parameters
-config.chocolateBlocks = false;
+config.chocolateBlocks = true;
 config.menuHeight = config.canvasHeight / 4.2;
 config.menuWidth = config.canvasWidth;
 config.floorHeight = config.canvasHeight / 3.5;
@@ -41,6 +42,7 @@ config.top = Math.round((config.canvasHeight - config.floorHeight) / config.stim
 
 // Stimulus parameters
 config.stimIndividualBlocks = true;
+config.internalStrokeColor = [40,20,40,80];
 config.showStimFloor = false;
 config.showStimGrid = false;
 config.showStimMenu = false;
