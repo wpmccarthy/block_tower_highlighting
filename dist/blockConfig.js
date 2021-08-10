@@ -10,6 +10,8 @@ var config = {
   buildColor: [30, 30, 200],
   buildColors: [[179, 47, 10, 255],
                 [10, 47, 179, 255]],
+  internalStrokeColors: [[210, 80, 30, 255],
+                          [30, 80, 210, 255]],
   menuColor: [236, 232, 226],
   disabledColor: [100, 100, 100],
   mistakeColor: [215, 30, 30, 200],

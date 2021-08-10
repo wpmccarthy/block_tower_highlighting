@@ -2,7 +2,7 @@
 var Block = require('./block.js');
 class BlockKind {
 
-  constructor(engine, w, h, blockColor, blockName = '') {
+  constructor(engine, w, h, blockColor, blockName = '', internalStrokeColor) {
     // BlockKinds are a type of block- of which several might be placed
     // in the environment. To be concretely instantiated, a Block must
     // be created that inherets its properties from a BlockKind
@@ -17,6 +17,7 @@ class BlockKind {
     this.h = h;
     this.blockColor = blockColor;
     this.blockName = blockName;
+    this.internalStrokeColor = internalStrokeColor;
   }
 
   // show block scaled according to given ratio, in a given location
@@ -57,7 +58,7 @@ class BlockKind {
   drawChocolateBlocks(env) {
 
     env.strokeWeight(3);
-    env.stroke(config.internalStrokeColor);
+    env.stroke(this.internalStrokeColor);
 
     // draws unit squares on each block
     var nRow = this.w;

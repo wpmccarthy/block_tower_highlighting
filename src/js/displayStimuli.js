@@ -15,7 +15,6 @@ function showReconstruction(env, stimulus, individual_blocks = false) {
 function drawStimChocolateBlocks(env, nRow, nCol) {
 
   env.strokeWeight(3);
-  env.stroke(config.internalStrokeColor);
 
   // draws unit squares on each block
   var i = -nRow / 2 + 0.5;
@@ -62,6 +61,7 @@ function showBlock(env, block, individual_blocks = false) {
   // draw internal squares
   if (individual_blocks) {
     env.fill(block.color);
+    env.stroke(block.internalStrokeColor);
     drawStimChocolateBlocks(env, width, height);
     // env.stroke([240, 225, 0]);
   }

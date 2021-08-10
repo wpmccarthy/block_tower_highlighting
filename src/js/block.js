@@ -11,6 +11,7 @@ class Block {
     this.x_index = x_index;
     this.y_index = y_index;
     this.color = this.blockKind.blockColor;
+    this.internalStrokeColor = this.blockKind.internalStrokeColor;
 
     if (rotated) {
         this.w = blockKind.h * config.sF;

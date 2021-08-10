@@ -85,7 +85,9 @@ class BlockUniverse {
     }; 
 
     let targetBlocksColored = trialObj.targetBlocks.map(block => {
-      block.color = this.getBlockColor([block.width, block.height]);
+      var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+      block.color = config.buildColors[colorIndex];
+      block.internalStrokeColor = config.internalStrokeColors[colorIndex];
       return block;
     })
 
@@ -131,7 +133,7 @@ class BlockUniverse {
     // menu. Later on this will need to be represented in each task.
     var c = 0;
     this.blockDims.forEach((dims, i) => {
-      this.blockKinds.push(new BlockKind(this.engine, dims[0], dims[1], config.buildColors[c], this.blockNames[i]));
+      this.blockKinds.push(new BlockKind(this.engine, dims[0], dims[1], config.buildColors[c], this.blockNames[i], config.internalStrokeColors[c]));
       c++;
     });
 
@@ -378,14 +380,14 @@ class BlockUniverse {
   }
 
 
-  getBlockColor(dims) {
+  getBlockColorIndex(dims) {
 
     var i = 0;
     while (((dims[0] != config.blockDims[i][0]) || (dims[1] != config.blockDims[i][1])) & (i < config.blockDims.length)){
       i += 1;
     }
     if ((dims[0] == config.blockDims[i][0]) & (dims[1] == config.blockDims[i][1])){
-      return config.buildColors[i];
+      return i;
     }
 
     else (console.log('no color found for block of dimensions ', dims))
