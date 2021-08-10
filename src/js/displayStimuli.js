@@ -136,9 +136,18 @@ function showStimFloor(p5stim, floorType) {
     p5stim.stroke(config.stimFloorColor);
     p5stim.strokeWeight(3);
     p5stim.line(floorX - (config.floorWidth/2), 
-                floorY - (config.floorHeight/2), 
+                floorY - (config.floorHeight/2) + 3, //+3 for linewidth
                 floorX + (config.floorWidth/2),
-                floorY - (config.floorHeight/2));
+                floorY - (config.floorHeight/2) + 3); //+3 for linewidth
+
+    // center tick
+    p5stim.line(
+      floorX,
+      floorY - (config.floorHeight/2) + 3, //+3 for linewidth
+      floorX,
+      floorY - (config.floorHeight/2) + 23, //+3 for linewidth + 20 for tick 
+    );
+
   } else { // solid floor
     p5stim.stroke(220);
     p5stim.strokeWeight(2);
