@@ -45,7 +45,10 @@ config.top = Math.round((config.canvasHeight - config.floorHeight) / config.stim
 // Stimulus parameters
 config.stimIndividualBlocks = true;
 config.internalStrokeColor = [40,20,40,80];
-config.showStimFloor = false;
+config.showStimFloor = true;
+config.stimFloorType = 'line';
+config.stimFloorColor = 120;
+config.floorWidth = config.canvasWidth*0.8;
 config.showStimGrid = false;
 config.showStimMenu = false;
 config.displayBuiltInStim = false;

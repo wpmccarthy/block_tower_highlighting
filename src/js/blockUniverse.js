@@ -95,7 +95,7 @@ class BlockUniverse {
       p5stim.background(220);
       display.showStimulus(p5stim, targetBlocksColored, config.stimIndividualBlocks);
       if (config.showStimFloor){
-        display.showStimFloor(p5stim);
+        display.showStimFloor(p5stim, config.stimFloorType);
       };
       if (config.showStimGrid){
         display.grid.show(p5stim);

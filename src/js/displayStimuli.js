@@ -128,22 +128,47 @@ class Grid {
   }
 }
 
-//still to do!
-function showStimFloor(p5stim) {
+function showStimFloor(p5stim, floorType) {
   const floorX = config.stimCanvasWidth / 2,
-    floorY =config.floorY,
-    floorWidth = config.stimCanvasWidth * 1.5,
-    floorHeight = config.floorHeight;
+        floorY = config.floorY;
   p5stim.push();
-  p5stim.translate(floorX, floorY);
-  p5stim.rectMode(p5stim.CENTER);
-  p5stim.stroke(220);
-  p5stim.strokeWeight(2);
-  p5stim.fill([28, 54, 62]);
-  p5stim.rect(0, 0, floorWidth, floorHeight);
+  if (floorType == 'line'){ // line floor
+    p5stim.stroke(config.stimFloorColor);
+    p5stim.strokeWeight(3);
+    p5stim.line(floorX - (config.floorWidth/2), 
+                floorY - (config.floorHeight/2), 
+                floorX + (config.floorWidth/2),
+                floorY - (config.floorHeight/2));
+  } else { // solid floor
+    p5stim.stroke(220);
+    p5stim.strokeWeight(2);
+    const floorHeight = config.floorHeight,
+          floorWidth = config.stimCanvasWidth * 1.5;
+    p5stim.translate(floorX, floorY);
+    p5stim.rectMode(p5stim.CENTER);
+    p5stim.fill([28, 54, 62]);
+    p5stim.rect(0, 0, floorWidth, floorHeight);
+    showMarker(p5stim);
+  }
   p5stim.pop();
-  showMarker(p5stim);
+  
 }
+
+// function showStimFloor(p5stim) {
+//   const floorX = config.stimCanvasWidth / 2,
+//     floorY =config.floorY,
+//     floorWidth = config.stimCanvasWidth * 1.5,
+//     floorHeight = config.floorHeight;
+//   p5stim.push();
+//   p5stim.translate(floorX, floorY);
+//   p5stim.rectMode(p5stim.CENTER);
+//   p5stim.stroke(220);
+//   p5stim.strokeWeight(2);
+//   p5stim.fill([28, 54, 62]);
+//   p5stim.rect(0, 0, floorWidth, floorHeight);
+//   p5stim.pop();
+//   showMarker(p5stim);
+// }
 
 function showMarker(p5stim) {
   p5stim.push();
