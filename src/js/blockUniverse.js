@@ -84,16 +84,37 @@ class BlockUniverse {
 
     }; 
 
-    let targetBlocksColored = trialObj.targetBlocks.map(block => {
-      var colorIndex = this.getBlockColorIndex([block.width, block.height]);
-      block.color = config.buildColors[colorIndex];
-      block.internalStrokeColor = config.internalStrokeColors[colorIndex];
-      return block;
-    })
+    let targetBlocksDrawable = config.stimSilhouette ?
+      trialObj.targetBlocks.map(block => {
+          block.color = config.silhouetteColor;
+          block.internalStrokeColor = config.silhouetteColor;
+          return block;
+        }) :
+      trialObj.targetBlocks.map(block => {
+          var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+          block.color = config.buildColors[colorIndex];
+          block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+          return block;
+        });
+
+    // let targetBlocksColored = trialObj.targetBlocks.map(block => {
+    //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+    //   block.color = config.buildColors[colorIndex];
+    //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+    //   return block;
+    // });
+
+    // let targetBlocksSilhouette = trialObj.targetBlocks.map(block => {
+    //   block.color = config.silhouetteColor;
+    //   block.internalStrokeColor = config.silhouetteColor;
+    //   return block;
+    // });
+
+    // var targetBlocksDrawable = config.stimSilhouette ? targetBlocksSilhouette : targetBlocksColored;
 
     p5stim.draw = function () {
       p5stim.background(220);
-      display.showStimulus(p5stim, targetBlocksColored, config.stimIndividualBlocks);
+      display.showStimulus(p5stim, targetBlocksDrawable, config.stimIndividualBlocks);
       if (config.showStimFloor){
         display.showStimFloor(p5stim, config.stimFloorType);
       };
@@ -202,7 +223,8 @@ class BlockUniverse {
       this.ground.show(env);
       this.leftSide.show(env);
       this.rightSide.show(env);
-      display.showMarker(env);
+      display.showStimFloor(env);
+      // display.showMarkers(env);
 
       // Menu & grid
       this.blockMenu.show(env, this.disabledBlockPlacement);

@@ -157,7 +157,7 @@ function showStimFloor(p5stim, floorType) {
     p5stim.rectMode(p5stim.CENTER);
     p5stim.fill([28, 54, 62]);
     p5stim.rect(0, 0, floorWidth, floorHeight);
-    showMarker(p5stim);
+    //showMarkers(p5stim);
   }
   p5stim.pop();
   
@@ -179,7 +179,7 @@ function showStimFloor(p5stim, floorType) {
 //   showMarker(p5stim);
 // }
 
-function showMarker(p5stim) {
+function showMarkers(p5stim) {
   p5stim.push();
   p5stim.stroke([255, 0, 0]);
   p5stim.strokeWeight(1);
@@ -218,7 +218,7 @@ function translateTower(targetBlocks, xOffset, yOffset){
 module.exports = {
   showStimulus,
   showReconstruction,
-  showMarker,
+  showMarkers,
   showStimFloor,
   translateTower,
   grid: new Grid()

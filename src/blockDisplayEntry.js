@@ -16,7 +16,7 @@ window.blockSetup = function(trial, showStimulus, showBuilding) {
 
   blockUniverse.setupEnvs(trial, showStimulus, showBuilding);
 
-}
+};
 
 // function component() {
   
