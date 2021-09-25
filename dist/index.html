@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+<!-- talks to browser and says information about webpage -->
+<!-- includes website title -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<!-- <script type="text/javascript" src="building_setup.js"></script> -->
+
+<!-- <link rel="stylesheet" href="building_widget.css"> -->
+
+<title>Building Widget</title>
+
+</head>
+
+<body>
+<!-- "what should i display in webpage" -->
+    <div class = "widget-canvas" id = "building-canvas"></div>
+    <script src="blockConfig.js"></script>
+    <script src="blockDisplay.js"></script>
+
+    <script>
+
+        window.onload = function() {
+
+            let trial = {
+                targetBlocks : [
+                    { "x": 1, "y": 0, "width": 2, "height": 1 },
+                    { "x": 1, "y": 1, "width": 1, "height": 2 },
+                    { "x": 1, "y": 3, "width": 1, "height": 2 },
+                    { "x": 1, "y": 5, "width": 2, "height": 1 }]
+            };
+
+            var showStimulus = true;
+            var showBuilding = true;
+
+            window.blockSetup(trial, showStimulus, showBuilding);
+        };
+        
+    </script>
+
+
+    <div class="col text-center">
+        <div class="any-canvas" id="feedback"></div>          
+        <div class="any-canvas" id="stimulus-canvas" style="display: inline-block"></div>
+        <div class="any-canvas" id="environment-canvas" style="display: inline-block"></div>
+        <button id="done-button" type="button" class="btn btn-primary">Done</button>
+      </div>
+</body>
+
+</html>
+
