@@ -56,7 +56,7 @@ class BlockUniverse {
 
   }
 
-  setupEnvs(trialObj, showStim, showBuild) {
+  setupEnvs(trialObj, showStim, showBuild, callback) {
     var localThis = this;
     if (showStim) {
       this.p5stim = new p5((env) => {
@@ -69,6 +69,9 @@ class BlockUniverse {
         localThis.setupEnvironment(env, trialObj);
       }, 'environment-canvas');
     };
+
+    this.endBuildingTrial = callback;
+
   };
 
 

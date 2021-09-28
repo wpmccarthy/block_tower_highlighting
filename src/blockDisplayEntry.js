@@ -2,9 +2,9 @@ import _ from 'lodash';
 var BlockUniverse = require('./js/blockUniverse.js');
 // var config = require('./display_config.js');
 
-let blockUniverse = new BlockUniverse(config);
+window.blockUniverse = new BlockUniverse(config);
 
-window.blockSetup = function(trial, showStimulus, showBuilding) {
+window.blockSetup = function(trialObj, showStimulus, showBuilding, callback) {
   // Need to remove old screens
   // if(_.has(blockUniverse, 'p5env')){
   //   blockUniverse.removeEnv();
@@ -14,7 +14,7 @@ window.blockSetup = function(trial, showStimulus, showBuilding) {
   //   blockUniverse.removeStimWindow();
   // };
 
-  blockUniverse.setupEnvs(trial, showStimulus, showBuilding);
+  window.blockUniverse.setupEnvs(trialObj, showStimulus, showBuilding, callback);
 
 };
 
