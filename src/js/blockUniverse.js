@@ -7,6 +7,7 @@ var BlockMenu = require('./blockMenu.js');
 var BlockKind = require('./blockKind.js');
 var Block = require('./block.js');
 var display = require('./displayStimuli.js');
+var scoring = require('./scoring.js');
 var imagePath = '../img/';
 
 class BlockUniverse {
@@ -54,6 +55,8 @@ class BlockUniverse {
 
     this.revealTarget = false;
 
+    this.endCondition = null;
+
   }
 
   setupEnvs(trialObj, showStim, showBuild, callback) {
@@ -70,6 +73,8 @@ class BlockUniverse {
       }, 'environment-canvas');
     };
 
+
+    this.endCondition = trialObj.endCondition;
     this.endBuildingTrial = callback;
 
   };
@@ -355,7 +360,6 @@ class BlockUniverse {
       // this.blockSender(sendingBlockData);
 
       // update discrete world map
-
       this.discreteWorldPrevious = _.cloneDeep(this.discreteWorld);
 
       var blockTop = newBlock.y_index + this.selectedBlockKind.h;
@@ -377,6 +381,8 @@ class BlockUniverse {
         Matter.Sleeping.set(b.body, false);
       });
 
+      checkComplete();
+
     } else {
       //this.disabledBlockPlacement = true;
       // jsPsych.pluginAPI.setTimeout(function () { // change color of bonus back to white
@@ -384,6 +390,27 @@ class BlockUniverse {
       // }, 100);
     }
 
+
+  }
+
+  checkComplete() { 
+
+    if (this.endCondition == 'perfect-reconstruction') {
+
+      if (this.discreteWorld == scoring.getDiscreteWorld(targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight)) {
+        console.log('complete!');
+        this.endBuildingTrial();
+      }
+      else {
+        console.log('not right this time');
+      }
+
+
+    } else if (this.endCondition == 'max_blocks') {
+
+    } else { 
+      //unsupported endCondition: do nothing
+    }
 
   }
 

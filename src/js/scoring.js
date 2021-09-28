@@ -1,5 +1,3 @@
-var config = require('./display_config.js');
-
 // This file contains helper functions for computing the error between 
 // the target and the structure built by the participant.
 
@@ -163,11 +161,11 @@ function getScore(canvas0, canvas1, agprop, imsize) {
  * Implement F1 score based on two discrete world maps
  */
 
-function getDiscreteWorld(blockList) {
+function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight) {
 
-  var targetDiscrete = new Array(config.discreteEnvWidth);
-  for (let i = 0; i < config.discreteEnvWidth; i++) {
-    targetDiscrete[i] = new Array(config.discreteEnvHeight).fill(false); // true represents free (NOT BLOCK PRESENT)
+  var targetDiscrete = new Array(discreteEnvWidth);
+  for (let i = 0; i < discreteEnvWidth; i++) {
+    targetDiscrete[i] = new Array(discreteEnvHeight).fill(false); // true represents free (NOT BLOCK PRESENT)
   }
 
   Array.prototype.forEach.call(blockList, block => { // not a Block object
