@@ -161,11 +161,11 @@ function getScore(canvas0, canvas1, agprop, imsize) {
  * Implement F1 score based on two discrete world maps
  */
 
-function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight) {
+function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight, invert) {
 
   var targetDiscrete = new Array(discreteEnvWidth);
   for (let i = 0; i < discreteEnvWidth; i++) {
-    targetDiscrete[i] = new Array(discreteEnvHeight).fill(false); // true represents free (NOT BLOCK PRESENT)
+    targetDiscrete[i] = new Array(discreteEnvHeight).fill(invert ? false : true); // true represents free (NOT BLOCK PRESENT)
   }
 
   Array.prototype.forEach.call(blockList, block => { // not a Block object
@@ -185,7 +185,7 @@ function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight) {
 
     for (let y = blockBottom; y < blockTop; y++) {
       for (let x = blockLeft; x < blockRight; x++) {
-        targetDiscrete[x][y] = true;
+        targetDiscrete[x][y] = invert ? true : false;
       }
     };
       
