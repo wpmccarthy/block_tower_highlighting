@@ -10,6 +10,8 @@ class Block {
     this.blockKind = blockKind;
     this.x_index = x_index;
     this.y_index = y_index;
+    this.x = x;
+    this.y = y;
     this.color = this.blockKind.blockColor;
     this.internalStrokeColor = this.blockKind.internalStrokeColor;
 
