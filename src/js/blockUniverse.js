@@ -57,22 +57,25 @@ class BlockUniverse {
 
     this.endCondition = null;
 
+    this.trialObj = {};
+
   }
 
   setupEnvs(trialObj, showStim, showBuild, callback) {
     var localThis = this;
+    this.trialObj = trialObj;
+
     if (showStim) {
       this.p5stim = new p5((env) => {
-        localThis.setupStimulus(env, trialObj);
+        localThis.setupStimulus(env);
       }, 'stimulus-canvas');
     };
 
     if (showBuild) {
       this.p5env = new p5((env) => {
-        localThis.setupEnvironment(env, trialObj);
+        localThis.setupBuilding(env);
       }, 'environment-canvas');
     };
-
 
     this.endCondition = trialObj.endCondition;
     this.endBuildingTrial = callback;
@@ -80,11 +83,11 @@ class BlockUniverse {
   };
 
 
-  setupStimulus(p5stim, trialObj) {
+  setupStimulus(p5stim) {
     var localThis = this;
 
     // var testStim = trialObj.targetBlocks;
-    trialObj.targetBlocks = display.translateTower(trialObj.targetBlocks); //translate from config
+    this.trialObj.targetBlocks = display.translateTower(this.trialObj.targetBlocks); //translate from config
     p5stim.setup = function () {
       p5stim
         .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
@@ -93,26 +96,26 @@ class BlockUniverse {
     };
 
     let targetBlocksDrawable = config.stimSilhouette ?
-      trialObj.targetBlocks.map(block => {
+      this.trialObj.targetBlocks.map(block => {
         block.color = config.silhouetteColor;
         block.internalStrokeColor = config.silhouetteColor;
         return block;
       }) :
-      trialObj.targetBlocks.map(block => {
+      this.trialObj.targetBlocks.map(block => {
         var colorIndex = this.getBlockColorIndex([block.width, block.height]);
         block.color = config.buildColors[colorIndex];
         block.internalStrokeColor = config.internalStrokeColors[colorIndex];
         return block;
       });
 
-    // let targetBlocksColored = trialObj.targetBlocks.map(block => {
+    // let targetBlocksColored = this.trialObj.targetBlocks.map(block => {
     //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
     //   block.color = config.buildColors[colorIndex];
     //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
     //   return block;
     // });
 
-    // let targetBlocksSilhouette = trialObj.targetBlocks.map(block => {
+    // let targetBlocksSilhouette = this.trialObj.targetBlocks.map(block => {
     //   block.color = config.silhouetteColor;
     //   block.internalStrokeColor = config.silhouetteColor;
     //   return block;
@@ -188,7 +191,7 @@ class BlockUniverse {
     Matter.World.add(this.engine.world, this.rightSide.body);
   }
 
-  setupEnvironment(env, trialObj = null) {
+  setupBuilding(env) {
 
     // reset discrete world representation
     for (let i = 0; i < this.discreteWorld.length; i++) {
@@ -238,8 +241,8 @@ class BlockUniverse {
       this.blockMenu.show(env, this.disabledBlockPlacement);
       display.grid.show(env);
 
-      if (trialObj.condition == 'practice' && !this.scoring) {
-        display.showStimulus(env, trialObj.targetBlocks, true);
+      if (this.trialObj.condition == 'practice' && !this.scoring) {
+        display.showStimulus(env, this.trialObj.targetBlocks, true);
       }
 
       this.blocks.forEach(b => {
@@ -269,7 +272,7 @@ class BlockUniverse {
       }
 
       if (this.revealTarget) {
-        display.showStimulus(env, trialObj.targetBlocks, false, config.revealedTargetColor);
+        display.showStimulus(env, this.trialObj.targetBlocks, false, config.revealedTargetColor);
       }
 
     }.bind(this);
@@ -296,7 +299,7 @@ class BlockUniverse {
                 (env.mouseX < config.envCanvasWidth - (config.sF * (this.selectedBlockKind.w / 2))))) {
               // SEND WORLD DATA AFTER PREVIOUS BLOCK HAS SETTLED
               // Sends information about the state of the world prior to next block being placed
-              this.placeBlock(env, trialObj);
+              this.placeBlock(env);
             }
 
             // else {
@@ -329,7 +332,7 @@ class BlockUniverse {
     }.bind(this);
   };
 
-  placeBlock(env, trialObj) {
+  placeBlock(env) {
 
     var testBlock = this.selectedBlockKind.createSnappedBlock(
       env.mouseX, env.mouseY, this.discreteWorld, true
@@ -354,7 +357,7 @@ class BlockUniverse {
           color: transluscent_color, // appends alpha value to color of block- will fail if block is not opaque
         },
         blockNum: this.blocks.length
-      }
+      };
 
       this.sendingBlocks.push(sendingBlockData.block);
       // this.blockSender(sendingBlockData);
@@ -381,27 +384,7 @@ class BlockUniverse {
         Matter.Sleeping.set(b.body, false);
       });
 
-
-      if (this.endCondition == null) {
-        // do nothing
-      } else if (this.endCondition == 'perfect-reconstruction') {
-
-        console.log(this.discreteWorld);
-        console.log(scoring.getDiscreteWorld(trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
-
-        if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false))) {
-          console.log('complete!');
-          this.endBuildingTrial ? this.endBuildingTrial() : null;
-        }
-        else {
-          console.log('not right yet'); 
-        }
-
-      } else if (this.endCondition == 'max_blocks') {
-
-      } else {
-        //unsupported endCondition: do nothing
-      }
+      this.checkTrialEnd();
 
 
     } else {
@@ -411,6 +394,38 @@ class BlockUniverse {
       // }, 100);
     }
 
+
+  }
+
+  checkTrialEnd() {
+
+    if (this.endCondition == null) {
+      // do nothing
+    } else if (this.endCondition == 'perfect-reconstruction') {
+
+      console.log(this.discreteWorld);
+      console.log(scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
+
+      if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false))) {
+        console.log('complete!');
+
+        let trialData = _.extend(this.getCommonData(),
+          { 
+            endCondition : this.endCondition,
+            endReason : 'perfect-reconstruction'
+          });
+
+        this.endBuildingTrial ? this.endBuildingTrial(trialData) : null;
+      }
+      else {
+        console.log('not right yet'); 
+      }
+
+    } else if (this.endCondition == 'max_blocks') {
+
+    } else {
+      //unsupported endCondition: do nothing
+    }
 
   }
 
@@ -444,6 +459,18 @@ class BlockUniverse {
 
     else (console.log('no color found for block of dimensions ', dims))
 
+  }
+
+  getCommonData(){
+
+    var commonData = {
+      //timing
+      timeAbsolute: Date.now(),
+      blocks: this.blocks,
+      discreteWorld: this.discreteWorld
+    };
+
+    return commonData;
   }
 
 
