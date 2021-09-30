@@ -381,6 +381,7 @@ class BlockUniverse {
         Matter.Sleeping.set(b.body, false);
       });
 
+      this.sendBlockData();
       this.checkTrialEnd();
 
 
@@ -430,8 +431,21 @@ class BlockUniverse {
         endReason: this.trialObj.endCondition
       });
 
-    this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided');
+    this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided. Please specify in trial object');
   }
+
+
+  sendBlockData() {
+    let blockData = _.extend({},
+      this.getCommonData(),
+      {
+        block: this.blocks[this.blocks.length-1].getDiscreteBlock()
+      });
+
+    this.trialObj.blockSender ? this.trialObj.blockSender(blockData) : console.log('no blockSender function provided. Please specify in trial object');
+  }
+
+
 
   removeEnv() {
     // remove environment
@@ -461,7 +475,7 @@ class BlockUniverse {
       return i;
     }
 
-    else (console.log('no color found for block of dimensions ', dims))
+    else (console.log('no color found for block of dimensions ', dims));
 
   };
 
@@ -479,14 +493,7 @@ class BlockUniverse {
 
   getBlockJSON() {
     return _.map(this.blocks, (block) => {
-
-      return {
-        x: block.x_index,
-        y: block.y_index,
-        width: block.blockKind.w,
-        height: block.blockKind.h
-      };
-
+      block.getDiscreteBlock();
     });
   };
 

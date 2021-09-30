@@ -140,6 +140,15 @@ class Block {
     return (xMove || yMove || rotated)
   }
 
+  getDiscreteBlock(){
+    return {
+      x: this.x_index,
+      y: this.y_index,
+      width: this.blockKind.w,
+      height: this.blockKind.h
+    };
+  }
+
 }
 
 module.exports = Block;
