@@ -478,7 +478,7 @@ class BlockUniverse {
   };
 
   getBlockJSON() {
-    return _.map(blocks, (block) => {
+    return _.map(this.blocks, (block) => {
 
       return {
         x: block.x_index,
