@@ -425,9 +425,10 @@ class BlockUniverse {
     console.log('end of trial');
 
     let trialData = _.extend({}, 
-                             // this.getCommonData(), 
+                            // this.getCommonData(), 
                             //  _.omit(this.trialObj, ['endBuildingTrial']),
                             { 
+                              blocks: this.blocks,
                               discreteWorld: this.discreteWorld,
                               endReason : this.trialObj.endCondition
                             });
