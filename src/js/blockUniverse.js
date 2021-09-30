@@ -61,7 +61,7 @@ class BlockUniverse {
 
   }
 
-  setupEnvs(trialObj, showStim, showBuild, callback) {
+  setupEnvs(trialObj, showStim, showBuild) {
     var localThis = this;
     this.trialObj = trialObj;
 
@@ -76,9 +76,6 @@ class BlockUniverse {
         localThis.setupBuilding(env);
       }, 'environment-canvas');
     };
-
-    this.endCondition = trialObj.endCondition;
-    this.endBuildingTrial = callback;
 
   };
 
@@ -399,34 +396,40 @@ class BlockUniverse {
 
   checkTrialEnd() {
 
-    if (this.endCondition == null) {
+    if (this.trialObj.endCondition == null) {
       // do nothing
-    } else if (this.endCondition == 'perfect-reconstruction') {
 
-      console.log(this.discreteWorld);
-      console.log(scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
+    } else if (this.trialObj.endCondition == 'perfect-reconstruction') {
 
+      // console.log(this.discreteWorld);
+      // console.log(scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
       if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false))) {
-        console.log('complete!');
-
-        let trialData = _.extend(this.getCommonData(),
-          { 
-            endCondition : this.endCondition,
-            endReason : 'perfect-reconstruction'
-          });
-
-        this.endBuildingTrial ? this.endBuildingTrial(trialData) : null;
+        this.endBuilding();
       }
       else {
-        console.log('not right yet'); 
+        // do nothing
       }
 
-    } else if (this.endCondition == 'max_blocks') {
+    } else if (this.trialObj.endCondition == 'max_blocks') {
+      if(this.blocks.length == this.trialObj.maxBlocks){
+        this.endBuilding();
+      }
 
     } else {
       //unsupported endCondition: do nothing
     }
 
+  }
+
+  endBuilding(){
+    console.log('end of trial');
+
+    let trialData = _.extend(this.getCommonData(), this.trialObj,
+                              { 
+                                endReason : 'perfect-reconstruction'
+                              });
+
+    this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided');;
   }
 
   removeEnv() {
