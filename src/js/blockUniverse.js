@@ -411,7 +411,7 @@ class BlockUniverse {
       }
 
     } else if (this.trialObj.endCondition == 'max_blocks') {
-      if(this.blocks.length == this.trialObj.maxBlocks){
+      if (this.blocks.length == this.trialObj.maxBlocks) {
         this.endBuilding();
       }
 
@@ -421,17 +421,14 @@ class BlockUniverse {
 
   }
 
-  endBuilding(){
+  endBuilding() {
     console.log('end of trial');
 
-    let trialData = _.extend({}, 
-                            // this.getCommonData(), 
-                            //  _.omit(this.trialObj, ['endBuildingTrial']),
-                            { 
-                              // blocks: this.blocks,
-                              discreteWorld: this.discreteWorld,
-                              endReason : this.trialObj.endCondition
-                            });
+    let trialData = _.extend({},
+      this.getCommonData(),
+      {
+        endReason: this.trialObj.endCondition
+      });
 
     this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided');
   }
@@ -466,21 +463,34 @@ class BlockUniverse {
 
     else (console.log('no color found for block of dimensions ', dims))
 
-  }
+  };
 
-  getCommonData(){
+  getCommonData() {
 
     var commonData = {
       //timing
       timeAbsolute: Date.now(),
-      blocks: this.blocks,
+      blocks: this.getBlockJSON(),
       discreteWorld: this.discreteWorld
     };
 
     return commonData;
-  }
+  };
+
+  getBlockJSON() {
+    return _.map(blocks, (block) => {
+
+      return {
+        x: block.x_index,
+        y: block.y_index,
+        width: block.BlockKind.width,
+        width: block.BlockKind.height
+      };
+
+    });
+  };
 
 
-}
+};
 
 module.exports = BlockUniverse;
