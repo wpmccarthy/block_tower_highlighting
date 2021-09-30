@@ -426,7 +426,7 @@ class BlockUniverse {
 
     let trialData = _.extend({}, 
                              this.getCommonData(), 
-                             _.omit(this.trialObj, ['endBuildingTrial']),
+                            //  _.omit(this.trialObj, ['endBuildingTrial']),
                             { 
                               endReason : this.trialObj.endCondition
                             });
