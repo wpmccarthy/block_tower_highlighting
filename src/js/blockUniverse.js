@@ -481,8 +481,8 @@ class BlockUniverse {
     return _.map(this.blocks, (block) => {
 
       return {
-        x: block.x,
-        y: block.y,
+        x: block.x_index,
+        y: block.y_index,
         width: block.blockKind.w,
         height: block.blockKind.h
       };
