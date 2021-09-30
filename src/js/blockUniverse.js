@@ -481,10 +481,10 @@ class BlockUniverse {
     return _.map(this.blocks, (block) => {
 
       return {
-        x: block.x_index,
-        y: block.y_index,
-        width: block.BlockKind.width,
-        width: block.BlockKind.height
+        x: block.x,
+        y: block.y,
+        width: block.blockKind.w,
+        height: block.blockKind.h
       };
 
     });
