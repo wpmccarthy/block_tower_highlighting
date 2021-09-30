@@ -428,7 +428,7 @@ class BlockUniverse {
                             // this.getCommonData(), 
                             //  _.omit(this.trialObj, ['endBuildingTrial']),
                             { 
-                              blocks: this.blocks,
+                              // blocks: this.blocks,
                               discreteWorld: this.discreteWorld,
                               endReason : this.trialObj.endCondition
                             });
@@ -473,6 +473,7 @@ class BlockUniverse {
     var commonData = {
       //timing
       timeAbsolute: Date.now(),
+      blocks: this.blocks,
       discreteWorld: this.discreteWorld
     };
 
