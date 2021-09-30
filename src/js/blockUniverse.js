@@ -493,7 +493,7 @@ class BlockUniverse {
 
   getBlockJSON() {
     return _.map(this.blocks, (block) => {
-      block.getDiscreteBlock();
+      return block.getDiscreteBlock();
     });
   };
 
