@@ -424,12 +424,14 @@ class BlockUniverse {
   endBuilding(){
     console.log('end of trial');
 
-    let trialData = _.extend(this.getCommonData(), this.trialObj,
+    let trialData = _.extend({}, this.getCommonData(), this.trialObj,
                               { 
-                                endReason : 'perfect-reconstruction'
+                                endReason : this.trialObj.endCondition
                               });
 
-    this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided');;
+    this.trialObj.endBuildingTrial ? console.log(trialData) : console.log('no trialEnd function provided');;
+
+    // this.trialObj.endBuildingTrial ? this.trialObj.endBuildingTrial(trialData) : console.log('no trialEnd function provided');;
   }
 
   removeEnv() {
