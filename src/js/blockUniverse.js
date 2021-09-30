@@ -473,7 +473,6 @@ class BlockUniverse {
     var commonData = {
       //timing
       timeAbsolute: Date.now(),
-      blocks: this.blocks,
       discreteWorld: this.discreteWorld
     };
 
