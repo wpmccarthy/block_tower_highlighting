@@ -413,6 +413,13 @@ class BlockUniverse {
 
       let offset = -(config.xSquareOffset+1);
       let stillFits = true;
+
+      console.log(this.trialObj.targetBlocks, 
+                  config.discreteEnvWidth, 
+                  config.discreteEnvHeight, 
+                  false, 
+                  offset);
+
       while ((offset < (config.discreteEnvWidth-config.xSquareOffset)) && stillFits) {
         let targetWorld = scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, offset);
         stillFits = targetWorld ? true : false;
