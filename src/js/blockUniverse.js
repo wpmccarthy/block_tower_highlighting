@@ -84,8 +84,7 @@ class BlockUniverse {
   setupStimulus(p5stim) {
     var localThis = this;
 
-    // var testStim = trialObj.targetBlocks;
-    this.trialObj.targetBlocks = display.translateTower(this.trialObj.targetBlocks, this.trialObj.offset); //translate from config
+    this.targetBlocks = display.translateTower(this.trialObj.stimulus, this.trialObj.offset); //translate from config
     p5stim.setup = function () {
       p5stim
         .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
@@ -94,26 +93,26 @@ class BlockUniverse {
     };
 
     let targetBlocksDrawable = config.stimSilhouette ?
-      this.trialObj.targetBlocks.map(block => {
+      this.targetBlocks.map(block => {
         block.color = config.silhouetteColor;
         block.internalStrokeColor = config.silhouetteColor;
         return block;
       }) :
-      this.trialObj.targetBlocks.map(block => {
+      this.targetBlocks.map(block => {
         var colorIndex = this.getBlockColorIndex([block.width, block.height]);
         block.color = config.buildColors[colorIndex];
         block.internalStrokeColor = config.internalStrokeColors[colorIndex];
         return block;
       });
 
-    // let targetBlocksColored = this.trialObj.targetBlocks.map(block => {
+    // let targetBlocksColored = this.targetBlocks.map(block => {
     //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
     //   block.color = config.buildColors[colorIndex];
     //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
     //   return block;
     // });
 
-    // let targetBlocksSilhouette = this.trialObj.targetBlocks.map(block => {
+    // let targetBlocksSilhouette = this.targetBlocks.map(block => {
     //   block.color = config.silhouetteColor;
     //   block.internalStrokeColor = config.silhouetteColor;
     //   return block;
@@ -240,7 +239,7 @@ class BlockUniverse {
       display.grid.show(env);
 
       if (this.trialObj.condition == 'practice' && !this.scoring) {
-        display.showStimulus(env, this.trialObj.targetBlocks, true);
+        display.showStimulus(env, this.targetBlocks, true);
       }
 
       this.blocks.forEach(b => {
@@ -270,7 +269,7 @@ class BlockUniverse {
       }
 
       if (this.revealTarget) {
-        display.showStimulus(env, this.trialObj.targetBlocks, false, config.revealedTargetColor);
+        display.showStimulus(env, this.targetBlocks, false, config.revealedTargetColor);
       }
 
     }.bind(this);
@@ -404,24 +403,25 @@ class BlockUniverse {
     } else if (this.trialObj.endCondition == 'perfect-reconstruction') {
 
       // console.log(this.discreteWorld);
-      // console.log(scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
+      // console.log(scoring.getDiscreteWorld(this.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
       if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, 0))) {
         this.endBuilding();
       }
 
     } else if (this.trialObj.endCondition == 'perfect-reconstruction-translation') {
 
-      let offset = -(this.trialObj.offset+1);
+      // let offset = -(this.trialObj.offset)
       let stillFits = true;
 
-      // console.log(this.trialObj.targetBlocks, 
+      // console.log(this.targetBlocks, 
       //             config.discreteEnvWidth, 
       //             config.discreteEnvHeight, 
       //             false, 
       //             offset);
 
-      while ((offset < (config.discreteEnvWidth-offset)) && stillFits) {
-        let targetWorld = scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, offset);
+      var offset = 0;
+      while (offset < config.discreteEnvWidth && stillFits) {
+        let targetWorld = scoring.getDiscreteWorld(this.trialObj.stimulus, config.discreteEnvWidth, config.discreteEnvHeight, false, offset);
         stillFits = targetWorld ? true : false;
         offset = offset + 1;
         if (_.isEqual(this.discreteWorld, targetWorld)) {

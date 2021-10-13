@@ -6,11 +6,6 @@ window.blockUniverse = new BlockUniverse(config);
 
 window.blockSetup = function(trialObj, showStimulus, showBuilding, callback) {
 
-
-  // do any reseting that's needed for the trialObject
-  
-  trialObj.targetBlocks = trialObj.stimulus;
-
   // Need to remove old screens
   // if(_.has(blockUniverse, 'p5env')){
   //   blockUniverse.removeEnv();
