@@ -8,7 +8,7 @@ var config = {
   discreteEnvWidth: 12,
   worldScale: 2.2, //scaling factor within matterjs
   menuOffset: 70,
-  xSquareOffset: 4,
+  xSquareOffset: 0,
   ySquareOffset: 0,
 
   // block details

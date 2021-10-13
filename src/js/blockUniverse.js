@@ -85,7 +85,7 @@ class BlockUniverse {
     var localThis = this;
 
     // var testStim = trialObj.targetBlocks;
-    this.trialObj.targetBlocks = display.translateTower(this.trialObj.targetBlocks); //translate from config
+    this.trialObj.targetBlocks = display.translateTower(this.trialObj.targetBlocks, this.trialObj.offset); //translate from config
     p5stim.setup = function () {
       p5stim
         .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
@@ -411,20 +411,19 @@ class BlockUniverse {
 
     } else if (this.trialObj.endCondition == 'perfect-reconstruction-translation') {
 
-      let offset = -(config.xSquareOffset+1);
+      let offset = -(this.trialObj.offset+1);
       let stillFits = true;
 
-      console.log(this.trialObj.targetBlocks, 
-                  config.discreteEnvWidth, 
-                  config.discreteEnvHeight, 
-                  false, 
-                  offset);
+      // console.log(this.trialObj.targetBlocks, 
+      //             config.discreteEnvWidth, 
+      //             config.discreteEnvHeight, 
+      //             false, 
+      //             offset);
 
-      while ((offset < (config.discreteEnvWidth-config.xSquareOffset)) && stillFits) {
+      while ((offset < (config.discreteEnvWidth-offset)) && stillFits) {
         let targetWorld = scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, offset);
         stillFits = targetWorld ? true : false;
         offset = offset + 1;
-        console.log(targetWorld);
         if (_.isEqual(this.discreteWorld, targetWorld)) {
           this.endBuilding();
         }
