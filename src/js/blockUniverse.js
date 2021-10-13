@@ -34,6 +34,7 @@ class BlockUniverse {
     this.discreteWorldPrevious = new Array();
 
     // Task variables
+    this.trialStart = Date.now()
     this.timeLastPlaced = Date.now();
     this.timeBlockSelected = Date.now();
 
@@ -124,7 +125,7 @@ class BlockUniverse {
       p5stim.background(220);
       display.showStimulus(p5stim, targetBlocksDrawable, config.stimIndividualBlocks);
       if (config.showStimFloor) {
-        display.showStimFloor(p5stim, config.stimFloorType);
+        display.showStimFloor(p5stim, config.stimFloorType, config.stimTickMark);
       };
       if (config.showStimGrid) {
         display.grid.show(p5stim);
@@ -404,11 +405,22 @@ class BlockUniverse {
 
       // console.log(this.discreteWorld);
       // console.log(scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false));
-      if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false))) {
+      if (_.isEqual(this.discreteWorld, scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, 0))) {
         this.endBuilding();
       }
-      else {
-        // do nothing
+
+    } else if (this.trialObj.endCondition == 'perfect-reconstruction-translation') {
+
+      let offset = -(config.xSquareOffset+1);
+      let stillFits = true;
+      while ((offset < (config.discreteEnvWidth-config.xSquareOffset)) && stillFits) {
+        let targetWorld = scoring.getDiscreteWorld(this.trialObj.targetBlocks, config.discreteEnvWidth, config.discreteEnvHeight, false, offset);
+        stillFits = targetWorld ? true : false;
+        offset = offset + 1;
+        console.log(targetWorld);
+        if (_.isEqual(this.discreteWorld, targetWorld)) {
+          this.endBuilding();
+        }
       }
 
     } else if (this.trialObj.endCondition == 'max_blocks') {
@@ -428,6 +440,7 @@ class BlockUniverse {
     let trialData = _.extend({},
       this.getCommonData(),
       {
+        eventType: 'trial_end',
         endReason: this.trialObj.endCondition
       });
 
@@ -439,6 +452,7 @@ class BlockUniverse {
     let blockData = _.extend({},
       this.getCommonData(),
       {
+        eventType: 'block_placement',
         block: this.blocks[this.blocks.length-1].getDiscreteBlock()
       });
 
@@ -484,6 +498,7 @@ class BlockUniverse {
     var commonData = {
       //timing
       timeAbsolute: Date.now(),
+      timeRelative: Date.now() - this.trialStart,
       blocks: this.getBlockJSON(),
       discreteWorld: this.discreteWorld
     };

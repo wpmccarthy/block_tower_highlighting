@@ -161,7 +161,7 @@ function getScore(canvas0, canvas1, agprop, imsize) {
  * Implement F1 score based on two discrete world maps
  */
 
-function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight, invert) {
+function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight, invert, xOffset) {
 
   var targetDiscrete = new Array(discreteEnvWidth);
   for (let i = 0; i < discreteEnvWidth; i++) {
@@ -172,7 +172,7 @@ function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight, invert
     // add block to map
     var width = block.width;
     var height = block.height;
-    var blockLeft = block.x;
+    var blockLeft = block.x + xOffset;
     var blockBottom = block.y;
     var blockTop = blockBottom + height;
     var blockRight = blockLeft + width;
@@ -185,7 +185,11 @@ function getDiscreteWorld(blockList, discreteEnvWidth, discreteEnvHeight, invert
 
     for (let y = blockBottom; y < blockTop; y++) {
       for (let x = blockLeft; x < blockRight; x++) {
-        targetDiscrete[x][y] = invert ? true : false;
+        if (x >= discreteEnvWidth || y >= discreteEnvHeight) {
+          return false
+        } else {
+          targetDiscrete[x][y] = invert ? true : false;
+        }
       }
     };
       

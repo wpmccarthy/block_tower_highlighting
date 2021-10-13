@@ -128,7 +128,7 @@ class Grid {
   }
 }
 
-function showStimFloor(p5stim, floorType) {
+function showStimFloor(p5stim, floorType, showTickMark) {
   const floorX = config.stimCanvasWidth / 2,
         floorY = config.floorY;
   p5stim.push();
@@ -141,12 +141,14 @@ function showStimFloor(p5stim, floorType) {
                 floorY - (config.floorHeight/2) + 3); //+3 for linewidth
 
     // center tick
-    p5stim.line(
-      floorX,
-      floorY - (config.floorHeight/2) + 3, //+3 for linewidth
-      floorX,
-      floorY - (config.floorHeight/2) + 23, //+3 for linewidth + 20 for tick 
-    );
+    if(showTickMark){
+      p5stim.line(
+        floorX,
+        floorY - (config.floorHeight/2) + 3, //+3 for linewidth
+        floorX,
+        floorY - (config.floorHeight/2) + 23, //+3 for linewidth + 20 for tick 
+      );
+    };
 
   } else { // solid floor
     p5stim.stroke(220);

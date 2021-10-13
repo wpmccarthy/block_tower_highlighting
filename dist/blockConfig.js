@@ -51,6 +51,7 @@ config.silhouetteColor = [28, 54, 62];
 config.internalStrokeColor = [40,20,40,80];
 config.showStimFloor = true;
 config.stimFloorType = 'line';
+config.stimTickMark = false;
 config.stimFloorColor = 180;
 config.floorWidth = config.canvasWidth*0.8;
 config.showStimGrid = false;
