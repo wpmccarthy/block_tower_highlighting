@@ -105,15 +105,15 @@ class Grid {
     var squareWidth = config.stim_scale;
     var squareHeight = config.stim_scale;
 
-    const grid_left = -9;
-    const grid_right = 11;
-    const grid_bottom = 0;
-    const grid_top = 20;
+    // const grid_left = -9;
+    // const grid_right = 11;
+    // const grid_bottom = 0;
+    // const grid_top = 20;
 
-    let i = grid_left;
-    while (i < grid_right) {
-      let j = grid_bottom;
-      while (j < grid_top) {
+    let i = this.grid_left;
+    while (i < this.grid_right) {
+      let j = this.grid_bottom;
+      while (j < this.grid_top) {
         env.push();
         env.rectMode(env.CENTER);
         env.stroke([190, 190, 255]);
@@ -223,5 +223,5 @@ module.exports = {
   showMarkers,
   showStimFloor,
   translateTower,
-  grid: new Grid()
+  grid: new Grid(-19,21,0,30)
 };
