@@ -253,20 +253,20 @@ class BlockUniverse {
         );
       }
 
-      // Make sure all blocks are snapped
-      if (!this.postSnap && this.snapBodiesPostPlacement) {
-        this.sleeping = this.blocks.filter((block) => block.body.isSleeping);
-        this.allSleeping = this.sleeping.length == this.blocks.length;
-        if (this.allSleeping) {
-          this.blocks.forEach(block => {
-            block.snapBodyToGrid();
-          });
-          this.postSnap = true;
-          this.blocks.forEach(b => {
-            Matter.Sleeping.set(b, false);
-          });
-        }
-      }
+      // // Make sure all blocks are snapped
+      // if (!this.postSnap && this.snapBodiesPostPlacement) {
+      //   this.sleeping = this.blocks.filter((block) => block.body.isSleeping);
+      //   this.allSleeping = this.sleeping.length == this.blocks.length;
+      //   if (this.allSleeping) {
+      //     this.blocks.forEach(block => {
+      //       block.snapBodyToGrid();
+      //     });
+      //     this.postSnap = true;
+      //     this.blocks.forEach(b => {
+      //       Matter.Sleeping.set(b, false);
+      //     });
+      //   }
+      // }
 
       if (this.revealTarget) {
         display.showStimulus(env, this.targetBlocks, false, config.revealedTargetColor);

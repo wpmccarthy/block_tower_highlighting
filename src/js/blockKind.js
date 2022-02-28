@@ -130,6 +130,8 @@ class BlockKind {
     var y_index;
     var stim_scale = config.stim_scale;
 
+    x_index = x_index
+
     if (this.w % 2 == 1) {
       snappedX = (mouseX + stim_scale / 2) % (stim_scale) < (stim_scale / 2) ? 
                               mouseX - (mouseX % (stim_scale / 2)) : 
@@ -140,7 +142,7 @@ class BlockKind {
       snappedX = mouseX % (stim_scale) < (stim_scale / 2) ?
                               mouseX - mouseX % (stim_scale) : 
                               mouseX - mouseX % (stim_scale) + stim_scale;
-      x_index = (snappedX / stim_scale) - (snappedX % stim_scale) - this.w / 2;
+      x_index = ((snappedX / stim_scale) - (snappedX % stim_scale) - this.w / 2);
     };
 
     if (!snapY) {
@@ -149,22 +151,27 @@ class BlockKind {
     } else {
       // check rows from mouse y, down
       var y = Math.round(config.top - (this.h / 2) -
-                         ((mouseY + (config.stim_scale / 2)) / config.stim_scale)) + 2;
+                         ((mouseY + (config.stim_scale / 2)) / config.stim_scale)) + 1;
       let rowFree = true;
 
-      for (let x = x_index; x < blockEnd; x++) { // check if row directly beneath block are all free at height y
+      for (let x = x_index; x < (x_index + this.w); x++) { // check if row directly beneath block are all free at height y
         rowFree = rowFree && discreteWorld[x][y];
       }
 
       if (!rowFree){ // if can't place directly here, try from top
         y = config.discreteEnvHeight;
+        rowFree = true;
       }
       
-      while (rowFree && y>=0 ) { // move down until row free
+      while (rowFree && y>=0) { // move down until row free
         y -= 1;
         var blockEnd = x_index + this.w;
         for (let x = x_index; x < blockEnd; x++) { // check if row directly beneath block are all free at height y
-          rowFree = rowFree && discreteWorld[x][y];
+          // console.log('dw_w:',discreteWorld.length,
+          //              'dw_h:',discreteWorld[0].length,
+          //              'x:', x,
+          //              'y:', y);
+          rowFree = y==-1 ? false : rowFree && discreteWorld[x][y];
         }
 
       }
