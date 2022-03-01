@@ -374,12 +374,14 @@ class BlockUniverse {
 
       this.postSnap = false;
       // blocks.push(new Block(selectedBlockKind, env.mouseX, env.mouseY, rotated));
-      this.selectedBlockKind = null;
-      env.cursor();
-      this.isPlacingObject = false;
-      this.blocks.forEach(b => {
-        Matter.Sleeping.set(b.body, false);
-      });
+      if (!config.keepBlockSelected){
+        this.selectedBlockKind = null;
+        env.cursor();
+        this.isPlacingObject = false;
+      }
+      // this.blocks.forEach(b => {
+      //   Matter.Sleeping.set(b.body, false);
+      // });
 
       this.sendBlockData();
       this.checkTrialEnd();
@@ -518,7 +520,9 @@ class BlockUniverse {
     });
   };
 
-
 };
+
+
+
 
 module.exports = BlockUniverse;
