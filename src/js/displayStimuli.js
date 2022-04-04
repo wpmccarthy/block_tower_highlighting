@@ -208,7 +208,7 @@ function translateTower(targetBlocks, xOffset, yOffset) {
   if (yOffset == null) {
     yOffset = config.ySquareOffset;
   }
-  translated = targetBlocks.map((block) => ({
+  let translated = targetBlocks.map((block) => ({
     x: block.x + xOffset,
     y: block.y + yOffset,
     height: block.height,

@@ -147,7 +147,24 @@ class Block {
       width: this.blockKind.w,
       height: this.blockKind.h
     };
+  };
+
+  testShift(discreteXOffset, discreteEnvWidth){
+    let newXIndex = this.x_index + discreteXOffset;
+    // newX = this.x + discreteXOffset * config.sF;
+    return (newXIndex + this.width < discreteEnvWidth) & (newXIndex > 0);
   }
+
+  shiftBlock(discreteXOffset, discreteWorld){
+    let newXIndex = this.x_index + discreteXOffset;
+    // newX = this.x + discreteXOffset * config.sF;
+    this.x_index += discreteXOffset;
+
+    this.x += discreteXOffset * config.sF;
+    
+    return this;
+  }
+
 
 }
 

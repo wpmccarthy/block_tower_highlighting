@@ -66,6 +66,8 @@ class BlockUniverse {
     var localThis = this;
     this.trialObj = trialObj;
 
+    this.blocks = [];
+
     if (showStim) {
       this.p5stim = new p5((env) => {
         localThis.setupStimulus(env);
@@ -520,9 +522,24 @@ class BlockUniverse {
     });
   };
 
+  shiftTower(discreteXOffset){
+
+    this.discreteWorldPrevious = _.cloneDeep(this.discreteWorld);
+    
+    let canShift = _.reduce(this.blocks, function(acc, block){
+
+      return (block.testShift(discreteXOffset, config.discreteEnvWidth) && acc)
+
+    }, true)
+
+    if (canShift) {
+      this.blocks = _.map(this.blocks, (block) => {block.shiftBlock(discreteXOffset)});
+      // update block map!!
+    }
+
+
+  }
+
 };
-
-
-
 
 module.exports = BlockUniverse;
