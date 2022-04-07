@@ -19,7 +19,7 @@
 
 <body>
 <!-- "what should i display in webpage" -->
-    <div class = "widget-canvas" id = "building-canvas"></div>
+    <div class = "widget-canvas" id = "highlighting-canvas"></div>
     <script src="blockConfig.js"></script>
     <script src="blockDisplay.js"></script>
 
@@ -37,10 +37,9 @@
                 offset: 5,
             };
 
-            var showStimulus = true;
-            var showBuilding = true;
+            // var showStimulus = true;
 
-            window.blockSetup(trial, showStimulus, showBuilding);
+            window.setupHighlighting(trial);
 
         };
         

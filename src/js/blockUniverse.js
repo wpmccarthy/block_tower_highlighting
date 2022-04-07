@@ -18,7 +18,6 @@ class BlockUniverse {
     // Global Variables for Matter js and custom Matter js wrappers
     this.engine = undefined;
     this.blocks = [];
-    this.blockKinds = [];
     this.propertyList = [];
 
     // Block placement variables
@@ -52,7 +51,7 @@ class BlockUniverse {
 
     // this.blockSender = undefined;
 
-    this.blockMenu = this.setupBlockMenu();
+    this.blockKinds = this.setupBlockKinds();
 
     this.revealTarget = false;
 
@@ -66,110 +65,85 @@ class BlockUniverse {
     var localThis = this;
     this.trialObj = trialObj;
 
-    this.blocks = [];
+    this.targetBlocks = display.translateTower(this.trialObj.stimulus, this.trialObj.offset); 
 
-    if (showStim) {
-      this.p5stim = new p5((env) => {
-        localThis.setupStimulus(env);
-      }, 'stimulus-canvas');
-    };
-
-    if (showBuild) {
-      this.p5env = new p5((env) => {
-        localThis.setupBuilding(env);
-      }, 'environment-canvas');
-    };
+    this.env = new p5((env) => {
+      localThis.setupHighlighting(env);
+    }, 'highlighting-canvas');
 
   };
 
 
-  setupStimulus(p5stim) {
-    var localThis = this;
+  // setupStimulus(p5stim) {
+  //   var localThis = this;
 
-    this.targetBlocks = display.translateTower(this.trialObj.stimulus, this.trialObj.offset); //translate from config
-    p5stim.setup = function () {
-      p5stim
-        .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
-        .parent('stimulus-canvas'); // add parent div 
+  //   this.targetBlocks = display.translateTower(this.trialObj.stimulus, this.trialObj.offset); //translate from config
+  //   p5stim.setup = function () {
+  //     p5stim
+  //       .createCanvas(config.stimCanvasWidth, config.stimCanvasHeight)
+  //       .parent('stimulus-canvas'); // add parent div 
 
-    };
+  //   };
 
-    let targetBlocksDrawable = config.stimSilhouette ?
-      this.targetBlocks.map(block => {
-        block.color = config.silhouetteColor;
-        block.internalStrokeColor = config.silhouetteColor;
-        return block;
-      }) :
-      this.targetBlocks.map(block => {
-        var colorIndex = this.getBlockColorIndex([block.width, block.height]);
-        block.color = config.buildColors[colorIndex];
-        block.internalStrokeColor = config.internalStrokeColors[colorIndex];
-        return block;
-      });
+  //   let targetBlocksDrawable = config.stimSilhouette ?
+  //     this.targetBlocks.map(block => {
+  //       block.color = config.silhouetteColor;
+  //       block.internalStrokeColor = config.silhouetteColor;
+  //       return block;
+  //     }) :
+  //     this.targetBlocks.map(block => {
+  //       var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+  //       block.color = config.buildColors[colorIndex];
+  //       block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+  //       return block;
+  //     });
 
-    // let targetBlocksColored = this.targetBlocks.map(block => {
-    //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
-    //   block.color = config.buildColors[colorIndex];
-    //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
-    //   return block;
-    // });
+  //   // let targetBlocksColored = this.targetBlocks.map(block => {
+  //   //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+  //   //   block.color = config.buildColors[colorIndex];
+  //   //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+  //   //   return block;
+  //   // });
 
-    // let targetBlocksSilhouette = this.targetBlocks.map(block => {
-    //   block.color = config.silhouetteColor;
-    //   block.internalStrokeColor = config.silhouetteColor;
-    //   return block;
-    // });
+  //   // let targetBlocksSilhouette = this.targetBlocks.map(block => {
+  //   //   block.color = config.silhouetteColor;
+  //   //   block.internalStrokeColor = config.silhouetteColor;
+  //   //   return block;
+  //   // });
 
-    // var targetBlocksDrawable = config.stimSilhouette ? targetBlocksSilhouette : targetBlocksColored;
+  //   // var targetBlocksDrawable = config.stimSilhouette ? targetBlocksSilhouette : targetBlocksColored;
 
-    p5stim.draw = function () {
-      p5stim.background(220);
-      display.showStimulus(p5stim, targetBlocksDrawable, config.stimIndividualBlocks);
-      if (config.showStimFloor) {
-        display.showStimFloor(p5stim, config.stimFloorType, config.stimTickMark);
-      };
-      if (config.showStimGrid) {
-        display.grid.show(p5stim);
-      };
+  //   p5stim.draw = function () {
+  //     p5stim.background(220);
+  //     display.showStimulus(p5stim, targetBlocksDrawable, config.stimIndividualBlocks);
+  //     if (config.showStimFloor) {
+  //       display.showStimFloor(p5stim, config.stimFloorType, config.stimTickMark);
+  //     };
+  //     if (config.showStimGrid) {
+  //       display.grid.show(p5stim);
+  //     };
 
-      if (config.displayBuiltInStim) {
-        display.showReconstruction(p5stim, localThis.sendingBlocks, false);
-      }
+  //     if (config.displayBuiltInStim) {
+  //       display.showReconstruction(p5stim, localThis.sendingBlocks, false);
+  //     }
 
-      if (config.showStimMenu) {
-        localThis.blockMenu.show(p5stim, false);
-      };
+  //     if (config.showStimMenu) {
+  //       localThis.blockMenu.show(p5stim, false);
+  //     };
 
-    };
+  //   };
 
-  };
+  // };
 
-  setupEngine() {
-    // Set up Matter Physics Engine
-    this.engine = Matter.Engine.create({
-      enableSleeping: true,
-      velocityIterations: 24,
-      positionIterations: 12
-    });
-
-    this.engine.world = Matter.World.create({
-      gravity: {
-        y: 0
-      }
-    });
-  }
-
-  setupBlockMenu() {
-    // Create block kinds that will appear in environment &
-    // menu. Later on this will need to be represented in each task.
+  setupBlockKinds() {
+    // Create list of viable block kinds
+    let blockKinds = {};
     var c = 0;
     this.blockDims.forEach((dims, i) => {
-      this.blockKinds.push(new BlockKind(this.engine, dims[0], dims[1], config.buildColors[c], this.blockNames[i], config.internalStrokeColors[c]));
+      blockKinds[String(dims)] = new BlockKind(this.engine, dims[0], dims[1], config.buildColors[c], this.blockNames[i], config.internalStrokeColors[c]);
       c++;
     });
-
-    // Create Block Menu
-    return new BlockMenu(config.menuHeight, this.blockKinds);
+    return blockKinds
   }
 
   setupBoundaries() {
@@ -185,12 +159,11 @@ class BlockUniverse {
     this.rightSide = new Boundary(
       config.envCanvasWidth + 30, config.envCanvasHeight / 2, 60, config.envCanvasHeight
     );
-    Matter.World.add(this.engine.world, this.ground.body);
-    Matter.World.add(this.engine.world, this.leftSide.body);
-    Matter.World.add(this.engine.world, this.rightSide.body);
   }
 
-  setupBuilding(env) {
+  setupHighlighting(env) {
+
+    console.log('setting up highlighting')
 
     // reset discrete world representation
     for (let i = 0; i < this.discreteWorld.length; i++) {
@@ -199,34 +172,48 @@ class BlockUniverse {
 
     // Processing JS Function, defines initial environment.
     env.setup = function () {
-      // Create Experiment Canvas
       // creates a P5 canvas (which is a wrapper for an HTML canvas)
       var envCanvas = env.createCanvas(config.envCanvasWidth, config.envCanvasHeight);
-      envCanvas.parent('environment-canvas'); // add parent div 
+      envCanvas.parent('highlighting-canvas'); // add parent div 
 
-      this.setupEngine();
-      //this.setupBlockMenu();
       this.setupBoundaries();
 
-      // Add things to the physics engine world
-
-      // Runner- use instead of line above if changes to game loop needed
-      Matter.Runner.run(Matter.Runner.create({
-        isFixed: true
-      }), this.engine);
-
-      // Set up interactions with physics objects
-      // TO DO: stop interactions with menu bar rect
-      //canvas.elt is the html element associated with the P5 canvas
-      var canvasMouse = Matter.Mouse.create(envCanvas.elt);
-
-      // Required for mouse's selected pixel to work on high-resolution displays
-      canvasMouse.pixelRatio = env.pixelDensity();
-
-      var options = {
-        mouse: canvasMouse // set object to mouse object in canvas
-      };
     }.bind(this);
+
+    // ##### SETUP STIMULUS
+
+    // let targetBlocksDrawable = config.stimSilhouette ?
+    // this.targetBlocks.map(block => {
+    //   block.color = config.silhouetteColor;
+    //   block.internalStrokeColor = config.silhouetteColor;
+    //   return block;
+    // }) :
+    // this.targetBlocks.map(block => {
+    //   var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+    //   block.color = config.buildColors[colorIndex];
+    //   block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+    //   return block;
+    // });
+
+    console.log(this.blockKinds);
+
+    this.blocks = this.targetBlocks.map(block => {
+      // var colorIndex = this.getBlockColorIndex([block.width, block.height]);
+      // block.color = config.buildColors[colorIndex];
+      // block.internalStrokeColor = config.internalStrokeColors[colorIndex];
+      // console.log(String([block.width,block.height]));
+      // console.log(block);
+
+      // console.log('1,2', this.blockKinds['1,2']);
+
+      // console.log(this.blockKinds[String([block.width,block.height])]);
+      
+      return new Block(this.engine, this.blockKinds[String([block.width,block.height])], 0, 0, false, false, block.x, block.y);
+    })
+
+
+
+
 
     env.draw = function () { // Called continuously by Processing JS 
       env.background(220);
@@ -234,45 +221,12 @@ class BlockUniverse {
       this.leftSide.show(env);
       this.rightSide.show(env);
       display.showStimFloor(env);
-      // display.showMarkers(env);
 
-      // Menu & grid
-      this.blockMenu.show(env, this.disabledBlockPlacement);
-      display.grid.show(env);
-
-      if (this.trialObj.condition == 'practice' && !this.scoring) {
-        display.showStimulus(env, this.targetBlocks, true);
-      }
+      // display.showStimulus(env, targetBlocksDrawable, config.stimIndividualBlocks);
 
       this.blocks.forEach(b => {
         b.show(env);
       });
-
-      // Show outline of block snapped to grid when placing object
-      if (this.isPlacingObject) {
-        this.selectedBlockKind.showGhost(
-          env, env.mouseX, env.mouseY, this.rotated, this.discreteWorld, this.disabledBlockPlacement
-        );
-      }
-
-      // // Make sure all blocks are snapped
-      // if (!this.postSnap && this.snapBodiesPostPlacement) {
-      //   this.sleeping = this.blocks.filter((block) => block.body.isSleeping);
-      //   this.allSleeping = this.sleeping.length == this.blocks.length;
-      //   if (this.allSleeping) {
-      //     this.blocks.forEach(block => {
-      //       block.snapBodyToGrid();
-      //     });
-      //     this.postSnap = true;
-      //     this.blocks.forEach(b => {
-      //       Matter.Sleeping.set(b, false);
-      //     });
-      //   }
-      // }
-
-      if (this.revealTarget) {
-        display.showStimulus(env, this.targetBlocks, false, config.revealedTargetColor);
-      }
 
     }.bind(this);
 
@@ -300,13 +254,6 @@ class BlockUniverse {
               // Sends information about the state of the world prior to next block being placed
               this.placeBlock(env);
             }
-
-            // else {
-            //   this.disabledBlockPlacement = true;
-            //   // jsPsych.pluginAPI.setTimeout(function () { // change color of bonus back to white
-            //   //   disabledBlockPlacement = false;
-            //   // }, 100);
-            // }
           }
         }
 
@@ -473,11 +420,11 @@ class BlockUniverse {
 
   removeEnv() {
     // remove environment
-    this.p5env.remove();
+    this.env.remove();
 
     // Update variables
     this.blocks = [];
-    this.blockKinds = [];
+    this.blockKinds = {};
     this.isPlacingObject = false;
     this.rotated = false;
     this.selectedBlockKind = null;
@@ -485,7 +432,7 @@ class BlockUniverse {
 
   removeStimWindow() {
     // remove environment
-    this.p5stim.remove();
+    this.env.remove();
   }
 
 
