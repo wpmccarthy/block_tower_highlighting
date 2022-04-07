@@ -1,4 +1,4 @@
-var config = require("./displayConfig.js");
+// var config = require("./displayConfig.js");
 
 class GridDisplay {
   constructor() {
@@ -75,15 +75,9 @@ class GridDisplay {
           var squareColor = config.highlightColors[this.gameGrid[i][j]];
           env.stroke(config.gridLineColor);
           env.fill(squareColor);
-          // env.noFill();
-          // env.translate(this.stimGrid_xs[i], this.stimGrid_ys[j]);
           env.rect(0, 0, config.stimScale, config.stimScale);
         } else { // outside of target
-          // var squareColor = config.gridColor;
-          // // env.stroke([190, 190, 255]);
-          // env.noStroke();
-          // //env.fill(squareColor);
-          // env.rect(0, 0, config.stimScale, config.stimScale);
+
         }
         
         env.pop();
@@ -91,32 +85,7 @@ class GridDisplay {
       }
       i = i + 1;
     }
-
-    // let i = config.grid_left;
-    // while (i < config.grid_right) {
-    //   let j = config.grid_bottom;
-    //   while (j < config.grid_top) {
-    //     console.log(i - config.grid_left, j - config.grid_bottom);
-    //     var squareColor = config.highlightColors[
-    //       this.stimGrid[i - config.grid_left][j - config.grid_bottom]
-    //     ]
-    //       ? config.highlightColors[
-    //           this.stimGrid[i - config.grid_left][j - config.grid_bottom]
-    //         ]
-    //       : [0, 0, 0, 0];
-    //     env.push();
-    //     env.rectMode(env.CENTER);
-    //     env.stroke([190, 190, 255]);
-    //     env.fill(squareColor);
-    //     // env.noFill();
-    //     env.translate(this.stimGrid_x[i], this.stimGrid_y[j]);
-    //     env.rect(0, 0, squareWidth, squareHeight);
-    //     env.pop();
-    //     j = j + 1;
-    //   }
-    //   i = i + 1;
-    // }
-  }
+  };
 }
 
 module.exports = {
